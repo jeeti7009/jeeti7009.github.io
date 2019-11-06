@@ -432,7 +432,7 @@
         <div class="row">
           <div class="col-md-12 mb-5">
 
-            <form action="#" class="p-5 bg-white">
+            <form action="#" class="p-5 bg-white" id="contact-form">
               
               <h2 class="h4 text-black mb-5">Contact Form</h2> 
 
@@ -566,6 +566,68 @@
 
   
   <script src="js/main.js"></script>
+  <script>
     
+
+  
+    $("#contact-form").submit(function(e) {
+
+    e.preventDefault(); // avoid to execute the actual submit of the form.
+
+    var subject = $('#subject').val();
+    var firstName = $('#fname').val();
+    var lastName = $('#lname').val();
+    var email = $('#email').val();
+    var message = $('#message').val();
+    var url = "https://api.sendgrid.com/v3/mail/send"
+    var headers = {"Authorization": "Bearer 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"}
+    var data = {
+              "personalizations": [
+                {
+                  "to": [
+                    {
+                      "email": "thedigitalbright@gmail.com"
+                    }
+                  ],
+                  "subject": subject
+                }
+              ],
+              "from": {
+                "email": email
+              },
+              "content": [
+                {
+                  "type": "text/plain",
+                  "value": message
+                }
+              ]
+            }
+
+        $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        headers:headers,
+        success: function(data)
+           {
+               alert(data); // show response from the php script.
+           },
+        dataType: "text/plain"
+      });
+
+    // $.ajax({
+    //        type: "POST",
+    //        url: url,
+    //        data: form.serialize(), // serializes the form's elements.
+    //        success: function(data)
+    //        {
+    //            alert(data); // show response from the php script.
+    //        }
+    //      });
+});        
+
+
+
+  </script>
   </body>
 </html>
